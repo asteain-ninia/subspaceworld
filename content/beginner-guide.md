@@ -6,7 +6,7 @@ draft: false
 summary: GitHubアカウント作成からプルリクエストまでの全手順を初心者向けに解説します
 ---
 
-**はじめての記事投稿ガイド**は、GitHubアカウントを持っておらず、Gitに触ったこともない方を対象に、WikiLikePagesへ記事を投稿するまでの全手順を説明する記事です。
+**はじめての記事投稿ガイド**は、GitHubアカウントを持っておらず、Gitに触ったこともない方を対象に、subspaceworldへ記事を投稿するまでの全手順を説明する記事です。
 
 == 投稿までの全体像 ==
 
@@ -54,7 +54,7 @@ GitHub Desktopは、Gitの操作をボタンで行えるアプリです。コマ
 # GitHub Desktopを開きます
 # メニューの '''File → Clone repository''' をクリックします
 # '''「URL」''' タブを選択します
-# URLの欄に `https://github.com/asteain-ninia/WikiLikePages` を貼り付けます
+# URLの欄に `https://github.com/asteain-ninia/subspaceworld` を貼り付けます
 # '''「Local path」''' で保存先フォルダを確認します（デフォルトのままでもOKです）
 # '''「Clone」''' をクリックします
 # ダウンロードが完了すると、GitHub Desktopにリポジトリが表示されます
@@ -107,9 +107,9 @@ GitHub Desktopは、Gitの操作をボタンで行えるアプリです。コマ
 
 記事ファイルは `content/` フォルダの中に置きます。クローンしたフォルダをエクスプローラーで開くと、以下のような構成になっています。
 
-* `WikiLikePages/content/` — ここに記事を置きます
-* `WikiLikePages/content/assets/` — 画像ファイルを置きます
-* `WikiLikePages/content/samples/` — サンプル記事です（ここには置かないでください）
+* `subspaceworld/content/` — ここに記事を置きます
+* `subspaceworld/content/assets/` — 画像ファイルを置きます
+* `subspaceworld/content/samples/` — サンプル記事です（ここには置かないでください）
 
 === 記事ファイルを作る ===
 
@@ -234,7 +234,7 @@ summary: エテ合議国についての概要記事
 
 === ブラウザから作る場合 ===
 
-# ブラウザでリポジトリのページ（`https://github.com/asteain-ninia/WikiLikePages`）を開きます
+# ブラウザでリポジトリのページ（`https://github.com/asteain-ninia/subspaceworld`）を開きます
 # 黄色い帯で '''「Compare & pull request」''' と出ていたらそれをクリックします
 # 出ていなければ '''「Pull requests」''' タブ → '''「New pull request」''' をクリックし、自分のブランチを選びます
 
