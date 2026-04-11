@@ -33,10 +33,6 @@ export const siteConfig = {
       label: "簡易投稿",
       description: "GitHub Issue Form から原稿を送ると、管理者がレビュー後に反映します。",
     },
-    {
-      label: "その他の方法",
-      description: "GitHub アカウントがない場合も、フォーム経由で投稿できます。",
-    },
   ],
   processSteps: [
     "記事原稿を Markdown または MediaWiki 記法で作成する",
