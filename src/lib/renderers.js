@@ -506,11 +506,12 @@ export function renderCategoryPage(categoryName, articles) {
 
 export function renderParticipationGuides(guides) {
   return guides
-    .map(
-      (guide) => `
-        <li><strong>${escapeHtml(guide.label)}:</strong> ${escapeHtml(guide.description)}</li>
-      `
-    )
+    .map((guide) => {
+      const label = guide.articleId
+        ? `<a href="#article/${encodeURIComponent(guide.articleId)}">${escapeHtml(guide.label)}</a>`
+        : `<strong>${escapeHtml(guide.label)}:</strong>`;
+      return `<li>${label} ${escapeHtml(guide.description)}</li>`;
+    })
     .join("");
 }
 
@@ -650,7 +651,10 @@ export function renderMissingPage(pageModel) {
             <ul class="plain-list">
               ${pageModel.participationGuides
                 .map((guide) => {
-                  return `<li><strong>${escapeHtml(guide.label)}:</strong> ${escapeHtml(guide.description)}</li>`;
+                  const label = guide.articleId
+                    ? `<a href="#article/${encodeURIComponent(guide.articleId)}">${escapeHtml(guide.label)}</a>`
+                    : `<strong>${escapeHtml(guide.label)}:</strong>`;
+                  return `<li>${label} ${escapeHtml(guide.description)}</li>`;
                 })
                 .join("")}
             </ul>

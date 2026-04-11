@@ -30,8 +30,9 @@ export const siteConfig = {
       description: "Obsidian 等のエディタで記事を執筆し、Pull Request で提出します。",
     },
     {
-      label: "簡易投稿",
-      description: "GitHub Issue Form から原稿を送ると、管理者がレビュー後に反映します。",
+      label: "詳しい投稿方法",
+      description: "はじめての記事投稿ガイドを参照してください。",
+      articleId: "beginner-guide",
     },
   ],
   processSteps: [
