@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project「亜空世界」</title>
+  <meta
+    name="description"
+    content="Project「亜空世界」— 架空世界の国家・人物・歴史を記録し、つなげるWikiサイトです。"
+  >
+  <link rel="stylesheet" href="src/styles.css">
+  <script>
+    if (window.location.protocol === "file:") {
+      document.documentElement.dataset.fileProtocol = "true";
+    }
+  </script>
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="#overview" aria-label="Project「亜空世界」 メインページ">
+        <span class="brand__mark" aria-hidden="true">亜</span>
+        <span class="brand__copy">
+          <strong>Project「亜空世界」</strong>
+        </span>
+      </a>
+
+      <div class="site-header__tools">
+        <nav class="utility-nav" aria-label="補助ナビゲーション">
+          <a href="#overview">メインページ</a>
+          <a href="#featured">選り抜き記事</a>
+          <a href="#categories">カテゴリ</a>
+          <a href="#participation">参加案内</a>
+        </nav>
+
+        <form class="search-form" id="search-form" role="search">
+          <label class="sr-only" for="search-input">記事を検索</label>
+          <input
+            id="search-input"
+            type="search"
+            placeholder="記事を検索"
+            autocomplete="off"
+          >
+          <button type="submit">検索</button>
+          <button class="secondary-button" id="random-button" type="button">おまかせ表示</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <aside class="protocol-warning" aria-live="polite">
+      <p class="protocol-warning__title">このページは <code>file://</code> では起動できません。</p>
+      <p>
+        ES Modules を使っているため、<code>npm run serve</code> を実行して
+        <code>http://localhost:4173</code> から開いてください。
+      </p>
+    </aside>
+
+    <div class="page-title">
+      <h1 id="page-heading">メインページ</h1>
+      <p id="page-lead"></p>
+    </div>
+
+    <section class="search-results" id="search-results" hidden aria-live="polite"></section>
+
+    <div id="home-view">
+      <section class="welcome-box" id="overview">
+        <div class="welcome-box__main">
+          <p id="welcome-summary"></p>
+          <p class="status-line" id="featured-status"></p>
+          <p class="status-line" id="preview-status"></p>
+        </div>
+      </section>
+
+      <div class="main-grid">
+        <section class="portal-box portal-box--featured" id="featured">
+          <h2>選り抜き記事</h2>
+          <article class="portal-box__body feature-article" id="featured-article"></article>
+        </section>
+
+        <section class="portal-box portal-box--new">
+          <h2>新着記事</h2>
+          <div class="portal-box__body">
+            <ul class="entry-list" id="new-articles"></ul>
+          </div>
+        </section>
+      </div>
+
+      <div class="main-grid">
+        <section class="portal-box portal-box--updates" id="updates">
+          <h2>最近の更新</h2>
+          <div class="portal-box__body">
+            <ul class="entry-list entry-list--stacked" id="recent-updates"></ul>
+          </div>
+        </section>
+
+        <section class="portal-box portal-box--guides" id="participation">
+          <h2>参加案内</h2>
+          <div class="portal-box__body">
+            <ul class="plain-list" id="participation-list"></ul>
+            <ol class="process-list" id="process-list"></ol>
+          </div>
+        </section>
+      </div>
+
+      <section class="portal-box portal-box--preview" id="article-preview">
+        <h2>記事プレビュー</h2>
+        <article class="portal-box__body preview-article" id="article-preview-card"></article>
+      </section>
+
+      <section class="portal-box" id="categories">
+        <h2>カテゴリから探す</h2>
+        <div class="portal-box__body category-grid" id="category-grid"></div>
+      </section>
+
+    </div>
+
+    <section class="detail-view" id="detail-view" hidden aria-live="polite"></section>
+  </main>
+</body>
+</html>

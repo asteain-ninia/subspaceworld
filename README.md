@@ -1,0 +1,35 @@
+# WikiLikePages
+
+GitHub Pages で公開しつつ、Wikiライクな執筆体験は外部エディタへ委譲する共同創作基盤です。
+
+2026-03-17 に試作品を `archive/prototypes/` へ隔離し、ルート配下は正式実装の着手点へ切り替えました。
+
+## 現在の構成
+
+- 原稿とアセット: `content/`
+- 画面本体: `index.html`
+- 実装コード: `src/`
+- 設計資料: `docs/`
+- 試作品アーカイブ: `archive/prototypes/`
+- 自動テスト: `tests/`
+
+## 実行メモ
+
+- トップページは ES Modules を使っているため、`file://` ではなく `npm run serve` で HTTP 経由起動します
+- 既定の起動先は `http://localhost:4173` です
+- `content/` の原稿を画面データへ反映するには `npm run build:content` を実行します
+- Pages に載せる公開物は `npm run build:site` で `dist/` へ出力します
+- 自動テストは `npm test` で実行できます
+
+## GitHub Pages
+
+- デプロイ用ワークフローは [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml) です
+- `main` への push または手動実行で、テスト後に `build:site` を走らせて GitHub Pages へデプロイします
+- リポジトリの `Settings > Pages` で `Source` を `GitHub Actions` に切り替えてください
+- 原稿の日付生成で `git log --follow` を使うため、Actions の checkout は履歴を省略しない設定にしています
+
+## ドキュメント
+
+- 仕様たたき台: [docs/spec.md](docs/spec.md)
+- 投稿経路: [docs/contribution-workflows.md](docs/contribution-workflows.md)
+- 実装アーキテクチャ: [docs/implementation-architecture.md](docs/implementation-architecture.md)
