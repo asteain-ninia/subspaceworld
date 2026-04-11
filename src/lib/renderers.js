@@ -508,7 +508,7 @@ export function renderParticipationGuides(guides) {
   return guides
     .map((guide) => {
       const label = guide.articleId
-        ? `<a href="#article/${encodeURIComponent(guide.articleId)}">${escapeHtml(guide.label)}</a>`
+        ? `<a href="#!article/${encodeURIComponent(guide.articleId)}">${escapeHtml(guide.label)}</a>`
         : `<strong>${escapeHtml(guide.label)}:</strong>`;
       return `<li>${label} ${escapeHtml(guide.description)}</li>`;
     })
@@ -652,7 +652,7 @@ export function renderMissingPage(pageModel) {
               ${pageModel.participationGuides
                 .map((guide) => {
                   const label = guide.articleId
-                    ? `<a href="#article/${encodeURIComponent(guide.articleId)}">${escapeHtml(guide.label)}</a>`
+                    ? `<a href="#!article/${encodeURIComponent(guide.articleId)}">${escapeHtml(guide.label)}</a>`
                     : `<strong>${escapeHtml(guide.label)}:</strong>`;
                   return `<li>${label} ${escapeHtml(guide.description)}</li>`;
                 })
