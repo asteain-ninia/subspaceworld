@@ -69,6 +69,15 @@ function renderRelatedTitles(titles) {
   return titles.map((title) => `<li>${escapeHtml(title)}</li>`).join("");
 }
 
+function resolveEmbedSrc(src) {
+  return src.includes("/") ? src : `assets/${src}`;
+}
+
+function renderEmbedImage(segment) {
+  const src = resolveEmbedSrc(segment.src);
+  return `<img class="embed-image" src="content/${escapeHtml(src)}" alt="${escapeHtml(segment.alt)}" loading="lazy">`;
+}
+
 function renderParagraphSegments(segments) {
   const raw = segments
     .map((segment) => {
@@ -77,7 +86,7 @@ function renderParagraphSegments(segments) {
       }
 
       if (segment.type === "embed") {
-        return `<img class="embed-image" src="content/${escapeHtml(segment.src)}" alt="${escapeHtml(segment.alt)}" loading="lazy">`;
+        return renderEmbedImage(segment);
       }
 
       const classNames = ["wiki-link"];
@@ -303,15 +312,15 @@ function renderEntrySummaryLinks(entries) {
   return `
     <ul class="plain-list">
       ${entries
-        .map((entry) => {
-          return `
+      .map((entry) => {
+        return `
             <li>
               ${renderEntryLink(entry)}
               <span class="entry-inline-meta"> (${escapeHtml(entry.category)} / ${escapeHtml(formatDisplayDate(entry.updated))})</span>
             </li>
           `;
-        })
-        .join("")}
+      })
+      .join("")}
     </ul>
   `;
 }
@@ -345,11 +354,11 @@ function renderTagList(tags) {
   return `
     <ul class="tag-list" aria-label="タグ一覧">
       ${tags
-        .map(
-          (tag) =>
-            `<li><a class="tag" href="#!category/${encodeURIComponent(tag)}">${escapeHtml(tag)}</a></li>`
-        )
-        .join("")}
+      .map(
+        (tag) =>
+          `<li><a class="tag" href="#!category/${encodeURIComponent(tag)}">${escapeHtml(tag)}</a></li>`
+      )
+      .join("")}
     </ul>
   `;
 }
@@ -430,7 +439,7 @@ export function renderSearchResults(query, matches) {
   if (matches.length === 0) {
     return `
       <h2>検索結果</h2>
-      <p>「${safeQuery}」に一致するサンプル記事はありません。</p>
+      <p>「${safeQuery}」に一致する記事はありません。</p>
     `;
   }
 
@@ -439,15 +448,15 @@ export function renderSearchResults(query, matches) {
     <p class="search-results__count">「${safeQuery}」に一致する記事が ${matches.length} 件あります。</p>
     <ul class="entry-list">
       ${matches
-        .map(
-          (entry) => `
+      .map(
+        (entry) => `
             <li>
               ${renderEntryLink(entry)}
               <span> (${escapeHtml(entry.category)}) - ${escapeHtml(entry.summary)}</span>
             </li>
           `
-        )
-        .join("")}
+      )
+      .join("")}
     </ul>
   `;
 }
@@ -475,15 +484,15 @@ export function renderCategoryPage(categoryName, articles) {
     filtered.length === 0
       ? '<p class="empty-note">このカテゴリに該当する記事はまだありません。</p>'
       : `<ul class="category-article-list">${filtered
-          .map(
-            (entry) => `
+        .map(
+          (entry) => `
               <li>
                 <a class="wiki-link" href="${buildArticleHref(entry.id)}">${escapeHtml(entry.title)}</a>
                 <span class="entry-meta"> — ${escapeHtml(entry.summary || "")}</span>
               </li>
             `
-          )
-          .join("")}</ul>`;
+        )
+        .join("")}</ul>`;
 
   return `
     <article class="article-page">
@@ -531,15 +540,15 @@ function renderHistory(history) {
   return `
     <ul class="history-list">
       ${history
-        .map(
-          (entry) =>
-            `<li>
+      .map(
+        (entry) =>
+          `<li>
               <span class="history-date">${escapeHtml(formatDisplayDate(entry.date))}</span>
               <span class="history-message">${escapeHtml(entry.message)}</span>
               <span class="history-author">${escapeHtml(entry.author)}</span>
             </li>`
-        )
-        .join("")}
+      )
+      .join("")}
     </ul>
   `;
 }
@@ -570,15 +579,15 @@ export function renderArticlePage(pageModel) {
         <div class="article-page__body">
           ${renderTableOfContents(pageModel.sections)}
           ${pageModel.sections
-            .map((section) => {
-              return `
+      .map((section) => {
+        return `
                 <section class="article-section" id="${escapeHtml(section.anchorId)}">
                   <h3>${escapeHtml(section.heading)}</h3>
                   ${renderSectionParagraphs(section.paragraphs)}
                 </section>
               `;
-            })
-            .join("")}
+      })
+      .join("")}
           ${renderFootnotes(pageModel.footnotes)}
         </div>
 
@@ -592,13 +601,12 @@ export function renderArticlePage(pageModel) {
 
           <section class="article-sidebox">
             <h3>別名</h3>
-            ${
-              pageModel.aliases.length === 0
-                ? '<p class="empty-note">別名は登録されていません。</p>'
-                : `<ul class="plain-list">${pageModel.aliases
-                    .map((alias) => `<li>${escapeHtml(alias)}</li>`)
-                    .join("")}</ul>`
-            }
+            ${pageModel.aliases.length === 0
+      ? '<p class="empty-note">別名は登録されていません。</p>'
+      : `<ul class="plain-list">${pageModel.aliases
+        .map((alias) => `<li>${escapeHtml(alias)}</li>`)
+        .join("")}</ul>`
+    }
           </section>
 
           <section class="article-sidebox">
@@ -653,13 +661,13 @@ export function renderMissingPage(pageModel) {
             <h3>投稿導線</h3>
             <ul class="plain-list">
               ${pageModel.participationGuides
-                .map((guide) => {
-                  const label = guide.articleId
-                    ? `<a href="#!article/${encodeURIComponent(guide.articleId)}">${escapeHtml(guide.label)}</a>`
-                    : `<strong>${escapeHtml(guide.label)}:</strong>`;
-                  return `<li>${label} ${escapeHtml(guide.description)}</li>`;
-                })
-                .join("")}
+      .map((guide) => {
+        const label = guide.articleId
+          ? `<a href="#!article/${encodeURIComponent(guide.articleId)}">${escapeHtml(guide.label)}</a>`
+          : `<strong>${escapeHtml(guide.label)}:</strong>`;
+        return `<li>${label} ${escapeHtml(guide.description)}</li>`;
+      })
+      .join("")}
             </ul>
             <p><a href="#participation">メインページの参加案内へ戻る</a></p>
           </section>
@@ -699,21 +707,20 @@ export function renderDisambiguationPage(pageModel) {
         <div class="article-page__body">
           <section class="article-section">
             <h3>候補ページ</h3>
-            ${
-              pageModel.candidates.length === 0
-                ? '<p class="empty-note">候補ページを表示できません。</p>'
-                : `<ul class="entry-list entry-list--stacked">${pageModel.candidates
-                    .map((entry) => {
-                      return `
+            ${pageModel.candidates.length === 0
+      ? '<p class="empty-note">候補ページを表示できません。</p>'
+      : `<ul class="entry-list entry-list--stacked">${pageModel.candidates
+        .map((entry) => {
+          return `
                         <li>
                           <p class="entry-list__headline">${renderEntryLink(entry)}</p>
                           <p class="entry-list__meta">${escapeHtml(entry.category)} / 最終更新 ${escapeHtml(formatDisplayDate(entry.updated))}</p>
                           <p>${escapeHtml(entry.summary)}</p>
                         </li>
                       `;
-                    })
-                    .join("")}</ul>`
-            }
+        })
+        .join("")}</ul>`
+    }
           </section>
         </div>
 
@@ -741,7 +748,7 @@ export function renderNotFoundPage(label) {
         <p class="article-page__eyebrow">ページ未検出</p>
         <h2>${escapeHtml(label)}</h2>
         <p class="article-page__summary">
-          指定されたページは現在のサンプルデータに存在しません。メインページから辿り直してください。
+          指定されたページが見つかりません。メインページから辿り直すか、管理者に問い合わせてください
         </p>
       </header>
     </article>
@@ -753,6 +760,10 @@ function renderInfoboxRowSegments(segments) {
     .map((segment) => {
       if (segment.type === "text") {
         return renderInlineMarkdown(escapeHtml(segment.value));
+      }
+
+      if (segment.type === "embed") {
+        return renderEmbedImage(segment);
       }
 
       const classNames = ["wiki-link"];

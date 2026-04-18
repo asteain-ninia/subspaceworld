@@ -544,7 +544,7 @@ function processFootnotes(text) {
 
 function convertMediaWikiImageToEmbed(text) {
   return text.replace(
-    /\[\[(?:ファイル|File|Image):([^\]|]+?)(?:\|[^\]]*?)?\]\]/gi,
+    /!?\[\[(?:ファイル|File|Image):([^\]|]+?)(?:\|[^\]]*?)?\]\]/gi,
     (_match, fileName) => `![[${fileName.trim()}]]`
   );
 }

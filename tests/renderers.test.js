@@ -323,7 +323,7 @@ test("renderArticlePage renders embed segments as img tags", () => {
   });
 
   assert.match(rendered, /embed-image/);
-  assert.match(rendered, /content\/map\.png/);
+  assert.match(rendered, /content\/assets\/map\.png/);
   assert.match(rendered, /alt="地図"/);
 });
 

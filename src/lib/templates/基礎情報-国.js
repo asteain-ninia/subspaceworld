@@ -3,8 +3,11 @@ export const templateName = "基礎情報 国";
 const fieldDefinitions = [
   { key: "訳国名", label: "訳国名" },
   { key: "正式国名", label: "正式国名" },
+  { key: "国旗画像", label: "国旗", isImage: true },
   { key: "国旗説明", label: "国旗" },
+  { key: "国章画像", label: "国章", isImage: true },
   { key: "標語", label: "標語" },
+  { key: "位置画像", label: "位置", isImage: true },
   { key: "位置説明", label: "位置" },
   { key: "公用語", label: "公用語" },
   { key: "首都", label: "首都" },
@@ -21,6 +24,10 @@ const fieldDefinitions = [
   { key: "注記", label: "注記" },
 ];
 
+function normalizeImageValue(rawValue) {
+  return /^!\[\[.+\]\]$/.test(rawValue) ? rawValue : `![[${rawValue}]]`;
+}
+
 export function build(template) {
   const heading = template.params["訳国名"] || template.positional[0] || "";
 
@@ -31,7 +38,8 @@ export function build(template) {
         return null;
       }
 
-      return { label: field.label, value: rawValue };
+      const value = field.isImage ? normalizeImageValue(rawValue) : rawValue;
+      return { label: field.label, value };
     })
     .filter(Boolean);
 
