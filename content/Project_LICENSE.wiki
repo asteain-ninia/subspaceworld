@@ -1,0 +1,9 @@
+== このページの目的 ==
+本ページは、亜空世界Wikiにおける文章・画像等の利用条件、クレジット（表示）などをまとめたものです。
+
+== 原則 ==
+本Wikiの文章および自作画像は原則として、[https://creativecommons.org/licenses/by-sa/4.0/deed.ja Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)]のもとで公開されます。
+
+== 外部CC記事からの継承に関して ==
+本Wikiの文章の一部は、[https://subspaceworld.miraheze.org/ 旧「亜空世界Wiki」]（miraheze）に掲載されていた内容を、CC BY-SA 4.0 に基づき改変して利用したものを含みます。<br/>
+該当する記事では、記事末尾に継承元を付記します。<br/>また、初版の編集ログをもって継承履歴（改変前の状態を示すもの）とし、初版編集時の「要約」欄に元のURLを付記します。<ref>Wikipediaにおける運用に準じる形です</ref>

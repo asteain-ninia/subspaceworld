@@ -45,6 +45,10 @@ export function renderInlineMarkdown(escapedText) {
       '<a href="$2" class="external-link" rel="noopener noreferrer">$1</a>'
     )
     .replace(
+      /\[(https?:\/\/[^\s\]]+)\s+([^\]]+?)\]/g,
+      '<a href="$1" class="external-link" rel="noopener noreferrer">$2</a>'
+    )
+    .replace(
       /&lt;(https?:\/\/[^\s&]+?)&gt;/g,
       '<a href="$1" class="external-link" rel="noopener noreferrer">$1</a>'
     )
