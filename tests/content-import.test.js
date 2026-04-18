@@ -313,8 +313,8 @@ test("buildArticleRecord extracts footnotes from <ref> tags", () => {
   assert.equal(article.footnotes.length, 2);
   assert.equal(article.footnotes[0], "注釈1");
   assert.equal(article.footnotes[1], "注釈2");
-  assert.match(article.sections[0].paragraphs[0], /\[1\]/);
-  assert.match(article.sections[0].paragraphs[0], /\[2\]/);
+  assert.match(article.sections[0].paragraphs[0], /\uE01A1\uE01B/);
+  assert.match(article.sections[0].paragraphs[0], /\uE01A2\uE01B/);
 });
 
 test("buildArticleRecord extracts [[Category:...]] as tags", () => {

@@ -55,6 +55,11 @@ export function renderInlineMarkdown(escapedText) {
     .replace(/&lt;(small|sup|sub)&gt;/gi, "<$1>")
     .replace(/&lt;\/(small|sup|sub)&gt;/gi, "</$1>")
     .replace(/&lt;br\s*\/?&gt;/gi, "<br>")
+    .replace(
+      /\uE01A(\d+)\uE01B/g,
+      (_match, n) =>
+        `<sup class="footnote-ref"><a href="#fn-${n}" id="fnref-${n}">[${n}]</a></sup>`
+    )
     .replace(/\uE010/g, "[")
     .replace(/\uE011/g, "]")
     .replace(/\uE012/g, "{")
@@ -188,7 +193,8 @@ export function renderFootnotes(footnotes) {
       const body = note.segments
         ? renderInlineMarkdown(renderParagraphSegments(note.segments))
         : renderInlineMarkdown(escapeHtml(note));
-      return `<li id="fn-${index + 1}"><span class="footnote__number">[${index + 1}]</span> ${body}</li>`;
+      const n = index + 1;
+      return `<li id="fn-${n}"><span class="footnote__number">[${n}]</span> ${body} <a class="footnote__backref" href="#fnref-${n}" aria-label="本文へ戻る">↩</a></li>`;
     })
     .join("");
 
@@ -325,24 +331,57 @@ function renderEntrySummaryLinks(entries) {
   `;
 }
 
+function buildTocTree(headings) {
+  const baseLevel = Math.min(...headings.map((section) => section.level ?? 2));
+  const root = { children: [] };
+  const stack = [{ level: baseLevel - 1, node: root }];
+
+  for (const section of headings) {
+    const level = section.level ?? 2;
+    const node = {
+      anchorId: section.anchorId,
+      heading: section.heading,
+      level,
+      children: [],
+    };
+
+    while (stack.length > 1 && stack[stack.length - 1].level >= level) {
+      stack.pop();
+    }
+
+    stack[stack.length - 1].node.children.push(node);
+    stack.push({ level, node });
+  }
+
+  return root.children;
+}
+
+function renderTocNodes(nodes) {
+  return nodes
+    .map((node) => {
+      const link = `<a href="#${escapeHtml(node.anchorId)}">${escapeHtml(node.heading)}</a>`;
+      const children = node.children.length > 0
+        ? `<ol class="toc__list">${renderTocNodes(node.children)}</ol>`
+        : "";
+      return `<li>${link}${children}</li>`;
+    })
+    .join("");
+}
+
 function renderTableOfContents(sections) {
   const headings = sections.filter((section) => section.heading !== "概要");
   if (headings.length < 2) {
     return "";
   }
 
-  const items = headings
-    .map(
-      (section) =>
-        `<li><a href="#${escapeHtml(section.anchorId)}">${escapeHtml(section.heading)}</a></li>`
-    )
-    .join("");
+  const tree = buildTocTree(headings);
+  const itemsHtml = renderTocNodes(tree);
 
   return `
-    <nav class="toc" aria-labelledby="toc-heading">
-      <h3 id="toc-heading">目次</h3>
-      <ol class="toc__list">${items}</ol>
-    </nav>
+    <details class="toc" aria-labelledby="toc-heading">
+      <summary id="toc-heading"><span class="toc__title">目次</span></summary>
+      <ol class="toc__list">${itemsHtml}</ol>
+    </details>
   `;
 }
 

@@ -578,6 +578,7 @@ export function buildArticlePageModel(graph, entryId) {
 
     return {
       heading: section.heading,
+      level: section.level ?? 2,
       anchorId: buildSectionAnchorId(section.heading),
       paragraphs,
     };

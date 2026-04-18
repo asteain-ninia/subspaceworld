@@ -1,10 +1,8 @@
-# WikiLikePages
+# Project「亜空世界」
 
-GitHub Pages で公開しつつ、Wikiライクな執筆体験は外部エディタへ委譲する共同創作基盤です。
+架空世界「亜空世界」の国家・人物・歴史を記録し、つなげるWikiサイトの実装基盤です。GitHub Pages で公開しつつ、原稿は Obsidian などの外部エディタで執筆し、Pull Request で提出する運用を想定しています。
 
-2026-03-17 に試作品を `archive/prototypes/` へ隔離し、ルート配下は正式実装の着手点へ切り替えました。
-
-## 現在の構成
+## 構成
 
 - 原稿とアセット: `content/`
 - 画面本体: `index.html`
@@ -23,8 +21,8 @@ GitHub Pages で公開しつつ、Wikiライクな執筆体験は外部エディ
 
 ## GitHub Pages
 
-- デプロイ用ワークフローは [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml) です
-- `main` への push または手動実行で、テスト後に `build:site` を走らせて GitHub Pages へデプロイします
+- デプロイ用ワークフローは [.github/workflows/deploy.yml](.github/workflows/deploy.yml) です
+- `main` への push または手動実行で、`build:site` を走らせて GitHub Pages へデプロイします
 - リポジトリの `Settings > Pages` で `Source` を `GitHub Actions` に切り替えてください
 - 原稿の日付生成で `git log --follow` を使うため、Actions の checkout は履歴を省略しない設定にしています
 
@@ -33,3 +31,4 @@ GitHub Pages で公開しつつ、Wikiライクな執筆体験は外部エディ
 - 仕様たたき台: [docs/spec.md](docs/spec.md)
 - 投稿経路: [docs/contribution-workflows.md](docs/contribution-workflows.md)
 - 実装アーキテクチャ: [docs/implementation-architecture.md](docs/implementation-architecture.md)
+- はじめての記事投稿ガイド: [content/beginner-guide.md](content/beginner-guide.md)

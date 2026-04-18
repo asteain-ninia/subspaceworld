@@ -470,16 +470,43 @@ html[data-file-protocol="true"] .protocol-warning {
   max-width: 100%;
 }
 
-.toc h3 {
+.toc > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.95rem;
-  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.toc > summary::-webkit-details-marker {
+  display: none;
+}
+
+.toc > summary::before {
+  content: "▶";
+  font-size: 0.7rem;
+  transition: transform 0.15s ease;
+}
+
+.toc[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.toc__title {
+  font-size: 0.95rem;
 }
 
 .toc__list {
-  margin: 0;
+  margin: 6px 0 0;
   padding-left: 1.6em;
   font-size: 0.9rem;
   line-height: 1.8;
+}
+
+.toc__list .toc__list {
+  margin: 0;
 }
 
 .toc__list a {
@@ -785,6 +812,16 @@ html[data-file-protocol="true"] .protocol-warning {
 .footnote__number {
   font-weight: 600;
   margin-right: 4px;
+}
+
+.footnote-ref a {
+  text-decoration: none;
+}
+
+.footnote__backref {
+  margin-left: 4px;
+  text-decoration: none;
+  color: var(--color-link);
 }
 
 .notice--main-article {

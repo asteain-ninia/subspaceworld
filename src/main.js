@@ -257,13 +257,15 @@ function bindEvents() {
   window.addEventListener("hashchange", renderRoute);
 
   elements.detailView.addEventListener("click", (event) => {
-    const tocLink = event.target.closest(".toc__list a");
-    if (!tocLink) {
+    const anchorLink = event.target.closest(
+      ".toc__list a, .footnote-ref a, .footnote__backref"
+    );
+    if (!anchorLink) {
       return;
     }
 
     event.preventDefault();
-    const targetId = tocLink.getAttribute("href")?.slice(1);
+    const targetId = anchorLink.getAttribute("href")?.slice(1);
     if (targetId) {
       const target = document.getElementById(targetId);
       if (target) {

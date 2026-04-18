@@ -536,7 +536,7 @@ function processFootnotes(text) {
       return "";
     }
     footnotes.push(bodyMatch[1].trim());
-    return `[${footnotes.length}]`;
+    return `\uE01A${footnotes.length}\uE01B`;
   });
   const cleaned = processed.replace(/<references\s*\/>/gi, "");
   return { text: cleaned, footnotes };
@@ -862,9 +862,11 @@ function buildParagraphs(lines) {
     }
 
     const bulletMatch =
-      /^([*\-+])(?:\s+|(?=<))(.+)$/.exec(trimmed) ?? /^(・)\s*(.+)$/.exec(trimmed);
+      /^(\*)(?!\*)\s*(.+)$/.exec(trimmed)
+      ?? /^([-+])(?:\s+|(?=<))(.+)$/.exec(trimmed)
+      ?? /^(・)\s*(.+)$/.exec(trimmed);
     const orderedMatch = /^(\d+)[.)]\s+(.+)$/.exec(trimmed)
-      ?? /^(#)\s+(.+)$/.exec(trimmed);
+      ?? /^(#)(?!#)\s*(.+)$/.exec(trimmed);
     if (bulletMatch || orderedMatch) {
       flushParagraph();
       const itemText = bulletMatch ? bulletMatch[2] : orderedMatch?.[2] ?? "";
@@ -907,6 +909,7 @@ export function parseMarkdownSections(sourceText) {
   let currentSection = {
     rawHeading: "",
     heading: "概要",
+    level: 2,
     paragraphs: [],
   };
 
@@ -918,6 +921,7 @@ export function parseMarkdownSections(sourceText) {
     sections.push({
       sourceHeading: currentSection.rawHeading,
       heading: currentSection.heading,
+      level: currentSection.level,
       paragraphs: currentSection.paragraphs,
     });
   }
@@ -938,6 +942,7 @@ export function parseMarkdownSections(sourceText) {
       currentSection = {
         rawHeading: token.text,
         heading: normalizeHeadingText(token.text) || "節",
+        level: token.level,
         paragraphs: [],
       };
     }
