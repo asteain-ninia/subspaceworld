@@ -579,14 +579,16 @@ function renderHistory(history) {
   return `
     <ul class="history-list">
       ${history
-      .map(
-        (entry) =>
-          `<li>
+      .map((entry) => {
+        const messageHtml = entry.url
+          ? `<a class="history-message" href="${escapeHtml(entry.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.message)}</a>`
+          : `<span class="history-message">${escapeHtml(entry.message)}</span>`;
+        return `<li>
               <span class="history-date">${escapeHtml(formatDisplayDate(entry.date))}</span>
-              <span class="history-message">${escapeHtml(entry.message)}</span>
+              ${messageHtml}
               <span class="history-author">${escapeHtml(entry.author)}</span>
-            </li>`
-      )
+            </li>`;
+      })
       .join("")}
     </ul>
   `;

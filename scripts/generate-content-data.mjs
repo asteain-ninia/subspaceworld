@@ -80,25 +80,111 @@ function getGitDates(repoRelativePath) {
   return null;
 }
 
-function getGitHistory(repoRelativePath) {
+function getRepoCommitBaseUrl() {
   try {
     const output = execFileSync(
       "git",
-      ["log", "--follow", "--format=%cs\t%an\t%s", "--", repoRelativePath],
+      ["config", "--get", "remote.origin.url"],
+      { cwd: projectRoot, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }
+    ).trim();
+    if (!output) {
+      return null;
+    }
+
+    const sshMatch = /^git@([^:]+):(.+?)(?:\.git)?$/.exec(output);
+    if (sshMatch) {
+      return `https://${sshMatch[1]}/${sshMatch[2]}/commit`;
+    }
+
+    const httpsMatch = /^https?:\/\/([^/]+)\/(.+?)(?:\.git)?$/.exec(output);
+    if (httpsMatch) {
+      return `https://${httpsMatch[1]}/${httpsMatch[2]}/commit`;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+const commitBaseUrl = getRepoCommitBaseUrl();
+
+function findMergeTimestamp(commitSha) {
+  try {
+    const output = execFileSync(
+      "git",
+      [
+        "log",
+        "--ancestry-path",
+        "--merges",
+        "--reverse",
+        "--format=%cI",
+        `${commitSha}..HEAD`,
+      ],
       {
         cwd: projectRoot,
         encoding: "utf8",
         stdio: ["ignore", "pipe", "ignore"],
       }
     );
-    return output
+    return output.split(/\r?\n/).map((value) => value.trim()).find(Boolean) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function getGitHistory(repoRelativePath) {
+  try {
+    const output = execFileSync(
+      "git",
+      [
+        "log",
+        "--follow",
+        "--no-merges",
+        "--format=%H\t%cI\t%cs\t%an\t%s",
+        "--",
+        repoRelativePath,
+      ],
+      {
+        cwd: projectRoot,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      }
+    );
+    const rows = output
       .split(/\r?\n/)
       .map((line) => line.trim())
       .filter(Boolean)
       .map((line) => {
-        const [date, author, ...messageParts] = line.split("\t");
-        return { date, author, message: messageParts.join("\t") };
+        const [hash, commitIso, date, author, ...messageParts] = line.split("\t");
+        return {
+          hash,
+          commitIso,
+          date,
+          author,
+          message: messageParts.join("\t"),
+        };
       });
+
+    for (const row of rows) {
+      row.sortKey = findMergeTimestamp(row.hash) ?? row.commitIso;
+    }
+
+    rows.sort((left, right) => {
+      if (left.sortKey !== right.sortKey) {
+        return left.sortKey < right.sortKey ? 1 : -1;
+      }
+      if (left.commitIso !== right.commitIso) {
+        return left.commitIso < right.commitIso ? 1 : -1;
+      }
+      return 0;
+    });
+
+    return rows.map(({ hash, date, author, message }) => ({
+      date,
+      author,
+      message,
+      url: commitBaseUrl ? `${commitBaseUrl}/${hash}` : "",
+    }));
   } catch {
     return [];
   }
