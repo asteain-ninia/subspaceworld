@@ -566,10 +566,9 @@ export function renderArticlePage(pageModel) {
 
       ${renderNotices(pageModel.templateModels)}
 
-      ${renderTableOfContents(pageModel.sections)}
-
       <div class="article-page__layout">
         <div class="article-page__body">
+          ${renderTableOfContents(pageModel.sections)}
           ${pageModel.sections
             .map((section) => {
               return `
