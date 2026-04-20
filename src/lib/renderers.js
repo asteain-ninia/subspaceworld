@@ -146,7 +146,7 @@ function renderWikiTable(tableModel) {
     })
     .join("");
 
-  return `<table class="wikitable">${captionHtml}<tbody>${rowsHtml}</tbody></table>`;
+  return `<div class="table-scroll"><table class="wikitable">${captionHtml}<tbody>${rowsHtml}</tbody></table></div>`;
 }
 
 function renderBlockquote(blockquoteModel) {
