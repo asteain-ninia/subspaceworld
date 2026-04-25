@@ -621,11 +621,57 @@ html[data-file-protocol="true"] .protocol-warning {
 }
 
 .article-section h3,
+.article-section h4,
+.article-section h5,
+.article-section h6,
 .article-sidebox h3 {
   margin: 0 0 10px;
   font-family: Georgia, "Times New Roman", "Yu Mincho", serif;
-  font-size: clamp(1.1rem, 0.95rem + 0.5vw, 1.18rem);
   font-weight: 400;
+}
+
+.article-section h3,
+.article-sidebox h3 {
+  font-size: clamp(1.1rem, 0.95rem + 0.5vw, 1.18rem);
+  border-bottom: 1px solid var(--color-border-soft);
+  padding-bottom: 4px;
+}
+
+.article-section h4 {
+  font-size: clamp(1rem, 0.92rem + 0.35vw, 1.08rem);
+}
+
+.article-section h5 {
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.article-section h6 {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.article-section--level-3,
+.article-section--level-4,
+.article-section--level-5,
+.article-section--level-6 {
+  margin-left: 0;
+}
+
+.article-section--level-3 + .article-section--level-2,
+.article-section--level-4 + .article-section--level-2,
+.article-section--level-5 + .article-section--level-2,
+.article-section--level-6 + .article-section--level-2 {
+  margin-top: 24px;
+}
+
+.article-section.article-section--level-3 + .article-section.article-section--level-3,
+.article-section.article-section--level-4 + .article-section.article-section--level-4,
+.article-section.article-section--level-5 + .article-section.article-section--level-5,
+.article-section.article-section--level-6 + .article-section.article-section--level-6 {
+  border-top: 0;
+  padding-top: 12px;
 }
 
 .article-section p {

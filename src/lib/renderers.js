@@ -621,9 +621,10 @@ export function renderArticlePage(pageModel) {
           ${renderTableOfContents(pageModel.sections)}
           ${pageModel.sections
       .map((section) => {
+        const headingLevel = Math.min(6, (section.level ?? 2) + 1);
         return `
-                <section class="article-section" id="${escapeHtml(section.anchorId)}">
-                  <h3>${escapeHtml(section.heading)}</h3>
+                <section class="article-section article-section--level-${section.level ?? 2}" id="${escapeHtml(section.anchorId)}">
+                  <h${headingLevel}>${escapeHtml(section.heading)}</h${headingLevel}>
                   ${renderSectionParagraphs(section.paragraphs)}
                 </section>
               `;
