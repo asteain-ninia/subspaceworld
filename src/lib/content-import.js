@@ -291,16 +291,9 @@ export function extractLeadingTemplates(sourceText) {
   };
 }
 
-function inferTitle(frontmatter, introParagraphs, fileBasename) {
+function inferTitle(frontmatter, _introParagraphs, fileBasename) {
   if (typeof frontmatter.title === "string" && frontmatter.title.trim()) {
     return frontmatter.title.trim();
-  }
-
-  const leadingParagraph = introParagraphs[0] ?? "";
-  const boldTitleMatch = /^\*\*(.+?)\*\*/.exec(leadingParagraph)
-    ?? /^'''(.+?)'''/.exec(leadingParagraph);
-  if (boldTitleMatch) {
-    return normalizeInlineText(replaceWikiMarkupWithPlainText(boldTitleMatch[1]));
   }
 
   return fileBasename;

@@ -342,7 +342,7 @@ test("buildArticleRecord converts [[ファイル:...]] to embed syntax", () => {
   assert.match(article.sections[0].paragraphs[0], /!\[\[map\.png\]\]/);
 });
 
-test("buildArticleRecord infers title from MediaWiki bold ('''タイトル''')", () => {
+test("buildArticleRecord uses fileBasename as title (ignores bold prefix)", () => {
   const article = buildArticleRecord({
     relativePath: "test.wiki",
     fileBasename: "テスト",
@@ -351,7 +351,19 @@ test("buildArticleRecord infers title from MediaWiki bold ('''タイトル''')",
     sourceText: `'''テスト国'''は架空の国である。`,
   });
 
-  assert.equal(article.title, "テスト国");
+  assert.equal(article.title, "テスト");
+});
+
+test("buildArticleRecord prefers frontmatter title over fileBasename", () => {
+  const article = buildArticleRecord({
+    relativePath: "test.md",
+    fileBasename: "test",
+    created: "2026-03-20",
+    updated: "2026-03-23",
+    sourceText: `---\ntitle: 明示タイトル\n---\n\n本文。`,
+  });
+
+  assert.equal(article.title, "明示タイトル");
 });
 
 test("buildArticleRecord strips file extension from id for .wiki files", () => {
