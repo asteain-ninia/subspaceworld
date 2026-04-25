@@ -1040,8 +1040,14 @@ function buildSummaryParagraphs(sections) {
   return collected;
 }
 
+function replaceFootnoteMarkersWithPlainText(text) {
+  return text.replace(/(\d+)/g, "[$1]");
+}
+
 function normalizePlainText(text) {
-  return normalizeInlineText(replaceWikiMarkupWithPlainText(text));
+  return normalizeInlineText(
+    replaceWikiMarkupWithPlainText(replaceFootnoteMarkersWithPlainText(text))
+  );
 }
 
 function buildUniqueList(values, maxItems = Infinity) {
