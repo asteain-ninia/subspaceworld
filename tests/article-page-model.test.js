@@ -218,6 +218,16 @@ test("buildWikiTextSegments turns unresolved links into missing-page routes", ()
   ]);
 });
 
+test("buildWikiTextSegments treats [[#anchor]] as same-page anchor link", () => {
+  const graph = buildWikiGraph(fixtureEntries);
+  const segments = buildWikiTextSegments("詳細は [[#歴史]] 参照", graph);
+
+  assert.equal(segments[1].type, "link");
+  assert.equal(segments[1].status, "anchor");
+  assert.equal(segments[1].label, "歴史");
+  assert.match(segments[1].href, /^#section-/);
+});
+
 test("buildArticlePageModel includes backlinks and unresolved link counts", () => {
   const graph = buildWikiGraph(fixtureEntries);
   const pageModel = buildArticlePageModel(graph, "sea");

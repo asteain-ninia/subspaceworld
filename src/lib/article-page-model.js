@@ -467,6 +467,18 @@ export function buildWikiTextSegments(text, graph) {
       continue;
     }
 
+    if (!link.pageTitle && link.heading) {
+      segments.push({
+        type: "link",
+        status: "anchor",
+        href: `#${buildSectionAnchorId(link.heading)}`,
+        label: link.displayText || link.heading,
+        title: link.heading,
+      });
+      cursor = link.end;
+      continue;
+    }
+
     const resolution = resolveArticleReference(graph.referenceIndex, graph.entryById, link.pageTitle);
 
     if (resolution.type === "article") {

@@ -258,7 +258,7 @@ function bindEvents() {
 
   elements.detailView.addEventListener("click", (event) => {
     const anchorLink = event.target.closest(
-      ".toc__list a, .footnote-ref a, .footnote__backref"
+      ".toc__list a, .footnote-ref a, .footnote__backref, .wiki-link--anchor"
     );
     if (!anchorLink) {
       return;

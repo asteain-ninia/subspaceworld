@@ -99,6 +99,8 @@ function renderParagraphSegments(segments) {
         classNames.push("wiki-link--missing");
       } else if (segment.status === "ambiguous") {
         classNames.push("wiki-link--ambiguous");
+      } else if (segment.status === "anchor") {
+        classNames.push("wiki-link--anchor");
       }
 
       return `<a class="${classNames.join(" ")}" href="${escapeHtml(segment.href)}">${escapeHtml(segment.label)}</a>`;
@@ -813,6 +815,8 @@ function renderInfoboxRowSegments(segments) {
         classNames.push("wiki-link--missing");
       } else if (segment.status === "ambiguous") {
         classNames.push("wiki-link--ambiguous");
+      } else if (segment.status === "anchor") {
+        classNames.push("wiki-link--anchor");
       }
 
       return `<a class="${classNames.join(" ")}" href="${escapeHtml(segment.href)}">${escapeHtml(segment.label)}</a>`;
