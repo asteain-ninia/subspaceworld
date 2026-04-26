@@ -2,7 +2,7 @@
 title: 大エレミーネ共和国
 tags:
   - country
-draft: true
+draft: false
 authors:
   - admiralshoto
 summary: 大エレミーネ共和国についての概要記事
