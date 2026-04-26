@@ -776,15 +776,21 @@ function buildParagraphs(lines) {
 
     const headingMatch = /^(#{2,6})\s+(.+)$/.exec(trimmed);
     const mwHeadingMatch = !headingMatch
-      ? /^(={2,6})\s*(.+?)\s*=+\s*$/.exec(trimmed)
+      ? /^(=(?:\s*=){1,5})\s*(.+?)\s*(=(?:\s*=){1,5})\s*$/.exec(trimmed)
       : null;
     if (headingMatch || mwHeadingMatch) {
       flushParagraph();
-      const match = headingMatch ?? mwHeadingMatch;
+      const level = headingMatch
+        ? headingMatch[1].length
+        : Math.min(
+            mwHeadingMatch[1].replace(/\s/g, "").length,
+            mwHeadingMatch[3].replace(/\s/g, "").length
+          );
+      const text = (headingMatch ?? mwHeadingMatch)[2].trim();
       paragraphs.push({
         type: "heading",
-        level: match[1].length,
-        text: match[2].trim(),
+        level,
+        text,
       });
       lineIndex += 1;
       continue;
