@@ -754,7 +754,7 @@ function buildParagraphs(lines) {
         paragraphs.push({
           type: "code-block",
           language: langMatch ? langMatch[1] : "",
-          body: codeMatch[1],
+          body: codeMatch[1].replace(/^\n+|\n+$/g, ""),
         });
       }
       lineIndex = codeEndIndex;
